@@ -1,0 +1,16 @@
+[project]
+name = "calibre-pdf-analyzer"
+version = "0.1.0"
+description = "Extract PDF metadata and store in Calibre custom columns"
+requires-python = ">=3.10"
+dependencies = [
+    "anthropic>=0.86.0",
+    "pikepdf>=8.0",
+]
+
+[project.scripts]
+calibre-pdf-analyzer = "calibre_pdf_analyzer.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
