@@ -106,18 +106,23 @@ def list_books_with_pdfs(library: Path | str, library_path: Path | None = None) 
         else:
             entries = [p.strip() for p in formats.split(",")]
 
-        has_pdf = False
+        found_pdf_path = None
+        has_pdf_format = False
+
         for entry in entries:
             if entry.upper() == "PDF":
-                has_pdf = True
+                has_pdf_format = True
                 break
             elif entry.lower().endswith(".pdf"):
-                pdf_books.append((book["id"], Path(entry)))
-                has_pdf = True
+                found_pdf_path = Path(entry)
+                has_pdf_format = True
                 break
 
-        # If we got just the format name, find the PDF on disk
-        if has_pdf and library_path:
+        # Add book with PDF path if we found one
+        if found_pdf_path:
+            pdf_books.append((book["id"], found_pdf_path))
+        # If we only got format name, find the PDF on disk
+        elif has_pdf_format and library_path:
             pdf_path = _find_pdf_for_book(library_path, book["id"])
             if pdf_path:
                 pdf_books.append((book["id"], pdf_path))
